@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var Animal = require('./models/animal');
 
 // Connect to the animals MongoDB
-mongoose.connect('mongodb://testuser:123qweasd@ds139985.mlab.com:39985/animals');
+mongoose.connect('mongodb://testuser:123qweasd@ds139985.mlab.com:39985/animals1');
 
 // Create our Express application
 var app = express();
@@ -89,17 +89,28 @@ animalRoute.put(function(req, res) {
     if (err)
       res.send(err);
 
+    console.log(req.params.animal_id);
     // Update the existing animal quantity
-    animal.name = req.body.name;
+    if(req.body.name){
+      animal.name = req.body.name;
+    }
+    if(req.body.species){
     animal.species = req.body.species;
+    }
+    if(req.body.age){
     animal.age = req.body.age;
+    }
+    if(req.body.owner){
     animal.owner = req.body.owner;
+    }
 
 
     // Save the animal and check for errors
     animal.save(function(err) {
       if (err)
         res.send(err);
+
+      console.log(animal);
 
       res.json(animal);
     });
